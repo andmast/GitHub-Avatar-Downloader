@@ -1,5 +1,5 @@
 var request = require('request');
-var token = require('./secrets'); // holds secert token key value
+var token = require('./secrets'); // holds secret token key value
 var fs = require('fs');
 var input = process.argv.slice(2)
 var owner = input[0];
