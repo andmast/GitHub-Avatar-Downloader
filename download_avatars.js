@@ -1,5 +1,5 @@
 var request = require('request');
-var token = require('./secrets');
+var token = require('./secrets'); // holds token keep value
 var fs = require('fs');
 var input = process.argv.slice(2)
 var owner = input[0];
@@ -10,6 +10,7 @@ console.log('Welcome to the GitHub Avatar Downloader!');
 function downloadImageByURL(url, filePath) {
   // console.log("Downloading images hold your horses");
 
+  // creating a file pale using the url pulled from the json object and adding the login id of the user as the file name
     request.get(url)
        .on('error', function (err) {
          throw err;
@@ -30,21 +31,25 @@ function getRepoContributors(repoOwner, repoName, cb) {
     }
   };
 
+// using a anyomous function to parse the JSON Object to pull required data
 
   request(options, function(err, res, body) {
-    // console.log("body:",body);
     var result = JSON.parse(body)
 
-    cb(err, result)
+    // using the callback function below to log and or download the data we want
 
+    cb(err, result)
   });
 }
 
 if(input.length < 2){
-  throw new Error('Expected two parameters\n','try again');
+  throw new Error('Expected two parameters:','try again');
 } else {
   getRepoContributors(owner, repo, function(err, result) {
     console.log("Errors:", err);
+
+    // function that calls the downloadImageByUrl function to download the avatar image file into a folder called 'avatars'
+
      for (var i = 0,l = result.length; i < l; i++) {
         // console.log(result[i].login);
         var file_path = 'avatars/'+result[i].login+'.jpg';
